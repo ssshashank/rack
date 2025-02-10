@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "SolidJS Web Extension",
+    "version": "2.0",
+    "description": "A sample web extension built with SolidJS, Vite, and TypeScript.",
+    "action": {
+        "default_popup": "../src/extension/popup.html"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": ["storage", "sidePanel"],
+    "side_panel": {
+       "default_path": "../src/extension/popup.html"
+    }
+}
