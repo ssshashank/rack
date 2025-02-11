@@ -11,7 +11,9 @@
             "@/*": ["./src/*"],
             "@Assets/*" : ["./src/assets/*"],
             "@Components/*": ["./src/components/*"],
-            "@Extensions/*": ["./src/extension/*"]
+            "@Configs/*": ["./src/config/*"],
+            "@Extensions/*": ["./src/extension/*"],
+            "@Utils/*": ["./src/utils/*"],
         }
     }
 }
