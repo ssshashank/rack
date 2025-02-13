@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@solana/web3.js": "^1.98.0",
     "@tailwindcss/vite": "^4.0.5",
     "clsx": "^2.1.1",
     "path": "^0.12.7",
