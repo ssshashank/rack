@@ -1,36 +1,23 @@
-
+// imports
 import { Component, JSX, splitProps } from "solid-js";
-import { Dynamic } from "solid-js/web";
-import { cn } from "@/utils";
+import { Portal } from "solid-js/web";
 
-// Portal props
-interface PortalWrapperProps {
-    asChild?: keyof JSX.IntrinsicElements | Component<any>;
-    mount?: HTMLElement | null;
+// PORTAL Props
+interface PortalProps {
     children?: JSX.Element;
-    ref?: (el: HTMLElement) => void;
     class?: string;
 }
 
-// Portal Component
-const Portal: Component<PortalWrapperProps> = (props) => {
+// PORTAL Component
+const SolidPortal: Component<PortalProps> = (props) => {
     // Separate our special props from the rest
-    const [local, others] = splitProps(props, ["asChild", "ref", "children", "class", "mount"]);
+    const [local, others] = splitProps(props, ["class", "children",]);
 
     return (
-        <Dynamic
-            component={local.asChild || "div"}
-            ref={local.ref}
-            class={cn("absolute z-50", local.class)}
-            {...others}
-        >
-            {local.mount
-                ? <div ref={local.ref} class={local.class} {...others}>{local.children}</div>
-                : local.children}
-        </Dynamic>
+        <Portal mount={globalThis?.document?.body ?? null} {...others}>
+            {local.children}
+        </Portal>
     );
 };
 
-// export
-export { Portal };
-
+export { SolidPortal };
