@@ -13,6 +13,7 @@ interface SwitchFieldProps extends PrimitiveInputProps {
     ref?: (el: InputElement) => void;
     children?: JSX.Element;
     knobStyle?: string;
+    switchStyle?: string;
 }
 
 // Switch Component
@@ -25,13 +26,14 @@ const SwitchField: Component<SwitchFieldProps> = (props) => {
         'shape',
         'icon',
         'children',
-        'knobStyle'
+        'knobStyle',
+        'switchStyle'
     ]);
 
     const icon = children(() => props?.icon);
 
     return (
-        <div class="my-3">
+        <div class={cn('my-3', local?.switchStyle)}>
             {/* switch container */}
             <label class={cn('relative inline-block cursor-pointer')}>
                 {/* hidden checkbox (the actual input) */}
