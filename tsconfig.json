@@ -13,6 +13,7 @@
             "@Components/*": ["./src/components/*"],
             "@Configs/*": ["./src/config/*"],
             "@Extensions/*": ["./src/extension/*"],
+            "@Hooks/*": ["./src/hooks/*"],
             "@Utils/*": ["./src/utils/*"],
         }
     }
