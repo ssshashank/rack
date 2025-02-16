@@ -26,9 +26,12 @@ const enum InputType {
     WEEK = 'week'
 }
 
-const enum Placement {
-    HORIZONTAL = 'horizontal',
-    VERTICAL = 'vertical'
+class Placement {
+    static readonly TOP: string = "top";
+    static readonly BOTTOM: string = "bottom";
+    static readonly LEFT: string = "left";
+    static readonly RIGHT: string = "right";
+    static readonly BOTTOMLEFT: string = "bottomLeft";
 }
 
 const enum Direction {
