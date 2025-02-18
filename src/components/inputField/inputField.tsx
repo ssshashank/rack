@@ -37,7 +37,7 @@ const InputField: Component<InputfieldWrapperProps> = (props) => {
                     {label()}
                 </label>
             </Show>
-            <div class={cn('cursor-pointer rounded-sm ring-1 ring-gray-200 focus-within:ring-gray-800 duration-700 bg-white my-2 flex items-center justify-start', local?.class)}>
+            <div class={cn('cursor-pointer rounded-sm ring-1 ring-warm focus-within:ring-warm duration-700 bg-white my-2 flex items-center justify-start', local?.class)}>
                 <Show when={iconLeft()}>
                     <div class='pl-2'>{iconLeft()}</div>
                 </Show>
