@@ -42,14 +42,15 @@ interface DropdownContentProps {
     class?: string;
     children: any;
     [key: string]: any;
+    position?: "bottom" | "right"; // default "bottom"
 }
 
 //  Dropdown Content Component
 const DropdownContent: Component<DropdownContentProps> = (props) => {
-    const [local, others] = splitProps(props, ["asChild", "ref", "children", "class"]);
+    const [local, others] = splitProps(props, ["asChild", "ref", "children", "class", "position"]);
     const { open, setContentRef, triggerEl, contentEl } = useDropdownContext();
-    const [contentCoordinates, setContentCoordinates] = createSignal();
-    
+    const [contentCoordinates, setContentCoordinates] = createSignal<any>(null);
+
     const handleRef = (el: HTMLDivElement) => {
         setContentRef(el);
         if (local.ref) local.ref(el);
@@ -57,18 +58,30 @@ const DropdownContent: Component<DropdownContentProps> = (props) => {
 
     // compute the position of the trigger relative to the portal mount.
     const computedStyles = createMemo(() => {
-        if (open() && triggerEl() && contentEl()) {
-            let contentRect: any, left;
+        if (open() && triggerEl() && contentCoordinates()) {
             const triggerRect = triggerEl()!.getBoundingClientRect();
-
-            if (contentCoordinates()) {
-                contentRect = contentCoordinates();
-                left = (triggerRect.left + triggerRect?.width / 2) - contentRect?.width / 2
-            };
-
-            // calculate top as the trigger's bottom relative to the portal mount plus an offset.
-            const top = triggerRect.bottom + window.scrollY + 4; // 4px offset below the trigger
-            return { top: `${top}px`, left: `${left}px` };
+            if (local.position === "right") {
+                const top = triggerRect.top + window.scrollY;
+                const left = triggerRect.right + window.scrollX + 4; // 4px offset to right
+                return { top: `${top}px`, left: `${left}px` };
+            } else {
+                // default "bottom"
+                const left = (triggerRect.left + triggerRect.width / 2) - contentCoordinates().width / 2;
+                const top = triggerRect.bottom + window.scrollY + 4;
+                return { top: `${top}px`, left: `${left}px` };
+            }
+        }
+        if (open() && triggerEl()) {
+            const triggerRect = triggerEl()!.getBoundingClientRect();
+            if (local.position === "right") {
+                const top = triggerRect.top + window.scrollY;
+                const left = triggerRect.right + window.scrollX + 4;
+                return { top: `${top}px`, left: `${left}px` };
+            } else {
+                const left = triggerRect.left + window.scrollX;
+                const top = triggerRect.bottom + window.scrollY + 4;
+                return { top: `${top}px`, left: `${left}px` };
+            }
         }
         return { top: "0px", left: "0px" };
     });
