@@ -1,5 +1,8 @@
-import { Button } from "@Components/button";
 import { createSignal } from "solid-js";
+import { InputType } from '@Configs/constants'
+import { Button } from '@Components/button'
+import { SwitchField } from '@Components/switch';
+import { InputField } from '@Components/inputField'
 
 declare const chrome: any;
 
@@ -20,14 +23,29 @@ const Popup = () => {
                 // close the popup window
                 window.close();
             }
-        } 
+        }
         console.log(tab);
     };
 
     return (
-        <div class="w-full h-full bg-yellow-100">
-            <h1 class="text-blue-600">Extension</h1>
-            <Button onclick={togglePanel}>Click Here</Button>
+        <div class="bg-brown h-[100vh] w-full">
+            <h1 class="text-hue text-3xl">
+                Custom Components
+            </h1>
+
+            <InputField
+                labelStyle='mx-5 text-warm'
+                type={InputType.TEXT}
+                placeholder="Johndoe@hoohamail.com"
+                label={'Email *'}
+                class='w-[500px] mx-5 bg-transparent text-warm '
+            />
+
+            <Button onclick={togglePanel}
+                class='w-[500px] mx-5  bg-hue  text-white  '>
+                Custom Button
+            </Button>
+            <SwitchField switchStyle='mx-5' class='bg-white' knobStyle='bg-warm'></SwitchField>
         </div>
     );
 };
