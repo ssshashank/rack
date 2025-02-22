@@ -1,61 +1,54 @@
-import { createSignal, onMount } from 'solid-js'
-import './App.css'
-
-declare const chrome: any;
-
+import { InputField } from '@Components/inputField'
+import './index.css'
+import { InputType } from '@Configs/constants'
+import { Button } from '@Components/button'
+import { SwitchField } from '@Components/switch';
+import { DropdownContent, DropdownItem, DropdownRoot, DropdownTrigger } from './components/dropdown';
 function App() {
-    const [isSidePanelOpen, setIsSidePanelOpen] = createSignal(false);
-    // Load state from Chrome Storage
-    onMount(() => {
-        chrome.storage.local.get(["isSidePanelOpen"], (result: any) => {
-            if (result.isSidePanelOpen !== undefined) {
-                setIsSidePanelOpen(result.isSidePanelOpen);
-            }
-        });
-    });
-
-    const togglePanel = async () => {
-        try {
-            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-            if (tab && tab.id !== undefined) {
-                if (isSidePanelOpen()) {
-                    // Move back to Popup (close Side Panel)
-                    await chrome.sidePanel.close({ tabId: tab.id });
-                    setIsSidePanelOpen(false);
-                } else {
-                    // Open the Side Panel
-                    await chrome.sidePanel.open({ tabId: tab.id });
-                    setIsSidePanelOpen(true);
-
-                    // Close the popup window after switching to the Side Panel
-                    window.close();
-                }
-
-                // Store the state in Chrome Storage
-                chrome.storage.local.set({ isSidePanelOpen: !isSidePanelOpen() });
-            } else {
-                console.error("No active tab found.");
-            }
-        } catch (error) {
-            console.error("Failed to toggle side panel:", error);
-        }
-    };
 
     return (
-        <>
+        <div class="bg-brown h-[100vh] w-full border-2 border-red-400">
+            <h1 class="text-hue text-3xl">
+                Custom Components
+            </h1>
 
-            <h1 class='text-md text-orange-400'>{isSidePanelOpen() ? "Side Panel" : "Popup"}</h1>
-            <p class="read-the-doc text-3xl">
-                Click on the Vite and Solid logos to learn more
-            </p>
+            <InputField
+                labelStyle='mx-5 text-warm'
+                type={InputType.TEXT}
+                placeholder="Johndoe@hoohamail.com"
+                label={'Email *'}
+                class='w-[500px] mx-5 bg-transparent text-warm '
+            />
 
-            <
-                button onClick={togglePanel}>
-                {isSidePanelOpen() ? "Move to Popup" : "Open in Side Panel"}
-            </button>
-        </>
-    )
-}
+            <Button
+                class='w-[500px] mx-5  bg-hue  text-white  '>
+                Custom Button
+            </Button>
+            <SwitchField switchStyle='mx-5' class='bg-white' knobStyle='bg-warm'></SwitchField>
+            <div class='ml-80'>
+                <DropdownRoot >
+                    <DropdownTrigger class="inline-flex w-[35px] h-[35px] items-center justify-center rounded-full bg-white text-violet11 shadow-[0_2px_10px] shadow-blackA4 outline-none hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-black"
+                        aria-label="Customise options"
+                    >
+                        Dropdown
+                    </DropdownTrigger>
+                    <DropdownContent>
+                        <DropdownRoot>
+                            <DropdownTrigger>Item1</DropdownTrigger>
+                            <DropdownContent position="right">
+                                <DropdownItem>Sub item1</DropdownItem>
+                            </DropdownContent>
+                        </DropdownRoot>
+                        <DropdownItem>Item2</DropdownItem>
+                        <DropdownItem>Item3</DropdownItem>
+                    </DropdownContent>
+                </DropdownRoot>
+
+            </div>
+        </div>
+    );
+};
 
 export default App
+
+
